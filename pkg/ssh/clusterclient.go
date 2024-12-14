@@ -16,6 +16,8 @@ package ssh
 
 import (
 	"context"
+	"fmt"
+	"github.com/labring/sealos/pkg/utils/logger"
 	"strings"
 	"sync"
 
@@ -114,6 +116,7 @@ func (cc *clusterClient) Fetch(host, src, dst string) error {
 }
 
 func (cc *clusterClient) CmdAsync(host string, cmds ...string) error {
+	logger.Info(fmt.Sprintf("cluster host:%s,cmds:%s", host, cmds))
 	client, err := cc.getClientForHost(host)
 	if err != nil {
 		return err
@@ -122,6 +125,7 @@ func (cc *clusterClient) CmdAsync(host string, cmds ...string) error {
 }
 
 func (cc *clusterClient) CmdAsyncWithContext(ctx context.Context, host string, cmds ...string) error {
+	logger.Info(fmt.Sprintf("cluster host:%s,cmds:%s", host, cmds))
 	client, err := cc.getClientForHost(host)
 	if err != nil {
 		return err

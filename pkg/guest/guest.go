@@ -16,6 +16,8 @@ package guest
 
 import (
 	"context"
+	"fmt"
+	"github.com/labring/sealos/pkg/utils/logger"
 	"strings"
 
 	"golang.org/x/sync/errgroup"
@@ -69,6 +71,8 @@ func (d *Default) Apply(cluster *v2.Cluster, mounts []v2.MountImage, targetHosts
 			// on run on the first master
 			envs := maps.Merge(m.Env, envGetter.Getenv(cluster.GetMaster0IP()))
 			cmds := formalizeImageCommands(cluster, i, m, envs)
+
+			logger.Info(fmt.Sprintf("Guest 命令同步 %s", cmds))
 			if err := execer.CmdAsync(cluster.GetMaster0IPAndPort(),
 				stringsutil.RenderShellWithEnv(strings.Join(cmds, "; "), envs),
 			); err != nil {
