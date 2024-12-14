@@ -1,0 +1,12 @@
+2024-12-14T19:02:42 info start to install app in this cluster
+2024-12-14T19:02:42 info Executing SyncStatusAndCheck Pipeline in InstallProcessor
+2024-12-14T19:02:42 info Executing ConfirmOverrideApps Pipeline in InstallProcessor
+2024-12-14T19:02:42 info Executing PreProcess Pipeline in InstallProcessor
+2024-12-14T19:02:43 info Executing pipeline MountRootfs in InstallProcessor.
+2024-12-14T19:02:48 info Executing pipeline MirrorRegistry in InstallProcessor.
+2024-12-14T19:02:48 info Executing UpgradeIfNeed Pipeline in InstallProcessor
+/bin/bash: line 1: /docker-entrypoint.sh: No such file or directory
+/bin/bash: line 1: nginx: command not found
+/bin/bash: line 1: -g: command not found
+/bin/bash: line 1: daemon: command not found
+Error: exit status 127

@@ -126,6 +126,7 @@ func (c *InstallProcessor) ConfirmOverrideApps(_ *v2.Cluster) error {
 
 func (c *InstallProcessor) PreProcess(cluster *v2.Cluster) error {
 	logger.Info("Executing PreProcess Pipeline in InstallProcessor")
+	// 拉取镜像
 	if err := c.Buildah.Pull(c.NewImages, buildah.WithPullPolicyOption(buildah.PullIfMissing.String())); err != nil {
 		return err
 	}

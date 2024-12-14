@@ -102,6 +102,7 @@ func (c *Applier) Apply() error {
 				return clusterErr
 			}
 		}
+		// 初始化集群
 		clusterErr = c.initCluster()
 		if clusterErr != nil && processor.IsRunGuestFailed(clusterErr) {
 			appErr = errors.Unwrap(clusterErr)
@@ -109,6 +110,7 @@ func (c *Applier) Apply() error {
 		}
 		c.ClusterDesired.CreationTimestamp = metav1.Now()
 	} else {
+		// 更新集群
 		clusterErr, appErr = c.reconcileCluster()
 		c.ClusterDesired.CreationTimestamp = c.ClusterCurrent.CreationTimestamp
 	}

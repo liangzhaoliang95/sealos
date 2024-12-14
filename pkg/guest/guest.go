@@ -94,6 +94,7 @@ func formalizeImageCommands(cluster *v2.Cluster, index int, m v2.MountImage, ext
 		}
 	} else {
 		for i := range m.Cmd {
+			// 基于workFs目录执行的命令
 			cmds = append(cmds, FormalizeWorkingCommand(cluster.Name, m.Name, m.Type, expansion.Expand(m.Cmd[i], mapping)))
 		}
 	}

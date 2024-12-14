@@ -53,7 +53,7 @@ func (f *defaultRootfs) UnMountRootfs(cluster *v2.Cluster, hosts []string) error
 
 func (f *defaultRootfs) mountRootfs(cluster *v2.Cluster, ipList []string) error {
 	pathResolver := constants.NewPathResolver(cluster.Name)
-	target := pathResolver.RootFSPath()
+	target := pathResolver.RootFSPath() // /var/lib/sealos/data/default/rootfs
 	ctx := context.Background()
 	eg, _ := errgroup.WithContext(ctx)
 	envProcessor := env.NewEnvProcessor(cluster)
@@ -148,6 +148,7 @@ func (f *defaultRootfs) mountRootfs(cluster *v2.Cluster, ipList []string) error 
 		mountInfo := f.mounts[idx]
 		eg.Go(func() error {
 			if mountInfo.IsApplication() {
+				// 从镜像的mountPoint目录拷贝到/var/lib/sealos/data/default/applications下
 				targetDir := constants.GetAppWorkDir(cluster.Name, mountInfo.Name)
 				if err := copyFn(mountInfo, master0, targetDir); err != nil {
 					return err
