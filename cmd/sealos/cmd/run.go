@@ -65,11 +65,12 @@ func newRunCmd() *cobra.Command {
 		Long:    `sealos run labring/kubernetes:v1.24.0 --masters [arg] --nodes [arg]`,
 		Example: exampleRun,
 		RunE: func(cmd *cobra.Command, args []string) error {
+			// 获取镜像
 			images, err := buildah.PreloadIfTarFile(args, transport)
 			if err != nil {
 				return err
 			}
-
+			// 初始化应用程序
 			applier, err := apply.NewApplierFromArgs(cmd, runArgs, images)
 			if err != nil {
 				return err

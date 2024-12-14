@@ -30,6 +30,7 @@ import (
 var (
 	DefaultRuntimeRootDir   string
 	DefaultClusterRootFsDir string
+	// /var/lib/sealos
 )
 
 const (
