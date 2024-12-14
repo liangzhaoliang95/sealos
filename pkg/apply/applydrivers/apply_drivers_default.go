@@ -98,11 +98,12 @@ func (c *Applier) Apply() error {
 	if c.ClusterCurrent == nil || c.ClusterCurrent.CreationTimestamp.IsZero() {
 		if !c.ClusterDesired.CreationTimestamp.IsZero() {
 			if yes, _ := confirm.Confirm("Desired cluster CreationTimestamp is not zero, do you want to initialize it again?", "you have canceled to create cluster"); !yes {
+				// 安装应用
 				clusterErr = processor.NewPreProcessError(fmt.Errorf("canceled to create cluster"))
 				return clusterErr
 			}
 		}
-		// 初始化集群
+		// 初始化集群 createProcessor
 		clusterErr = c.initCluster()
 		if clusterErr != nil && processor.IsRunGuestFailed(clusterErr) {
 			appErr = errors.Unwrap(clusterErr)
@@ -110,7 +111,7 @@ func (c *Applier) Apply() error {
 		}
 		c.ClusterDesired.CreationTimestamp = metav1.Now()
 	} else {
-		// 更新集群
+		// 更新协调集群
 		clusterErr, appErr = c.reconcileCluster()
 		c.ClusterDesired.CreationTimestamp = c.ClusterCurrent.CreationTimestamp
 	}

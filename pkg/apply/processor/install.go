@@ -73,11 +73,11 @@ func (c *InstallProcessor) GetPipeLine() ([]func(cluster *v2.Cluster) error, err
 		c.ConfirmOverrideApps,
 		c.PreProcess,
 		c.RunConfig,
-		c.MountRootfs,
+		c.MountRootfs, // 同步环境变量
 		c.MirrorRegistry,
 		c.UpgradeIfNeed,
 		// i.GetPhasePluginFunc(plugin.PhasePreGuest),
-		c.RunGuest,
+		c.RunGuest, // 会执行镜像命令
 		c.PostProcess,
 		// i.GetPhasePluginFunc(plugin.PhasePostInstall),
 	)

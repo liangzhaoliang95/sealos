@@ -69,6 +69,12 @@ func (w *wrap) Cmd(host string, command string) ([]byte, error) {
 }
 
 func (w *wrap) CmdAsyncWithContext(ctx context.Context, host string, commands ...string) error {
+	logger.Info("#############WrapCmdAsyncWithContext Start#############")
+	for i := 0; i < len(commands); i++ {
+		cmd := commands[i]
+		logger.Info(fmt.Sprintf("host:%s,cmds:%s", host, cmd))
+	}
+	logger.Info("#############WrapCmdAsyncWithContext End#############")
 	if w.isLocal(host) {
 		for i := range commands {
 			// nosemgrep: go.lang.security.audit.dangerous-exec-command.dangerous-exec-command
@@ -85,6 +91,12 @@ func (w *wrap) CmdAsyncWithContext(ctx context.Context, host string, commands ..
 }
 
 func (w *wrap) CmdAsync(host string, commands ...string) error {
+	logger.Info("#############WrapCmdAsync Start#############")
+	for i := 0; i < len(commands); i++ {
+		cmd := commands[i]
+		logger.Info(fmt.Sprintf("host:%s,cmds:%s", host, cmd))
+	}
+	logger.Info("#############WrapCmdAsync End#############")
 	ctx, cancel := ssh.GetTimeoutContext()
 	defer cancel()
 	return w.CmdAsyncWithContext(ctx, host, commands...)

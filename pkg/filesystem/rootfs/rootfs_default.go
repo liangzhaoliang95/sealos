@@ -134,7 +134,8 @@ func (f *defaultRootfs) mountRootfs(cluster *v2.Cluster, ipList []string) error 
 			envs = maps.Merge(rootfsEnvs, envs)
 			envs[v2.ImageRunModeEnvSysKey] = strings.Join(cluster.GetRolesByIP(ip), ",")
 			renderCommand := getRenderCommand(pathResolver.RootFSSealctlPath(), target)
-
+			// 执行环境变量同步
+			logger.Info(fmt.Sprintf("环境变量同步 %s", renderCommand))
 			return execer.CmdAsync(ip, stringsutil.RenderShellWithEnv(renderCommand, envs))
 		})
 	}

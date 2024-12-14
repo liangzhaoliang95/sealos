@@ -51,7 +51,7 @@ func (c *Client) wrapCommands(cmds ...string) string {
 
 func (c *Client) CmdAsyncWithContext(ctx context.Context, host string, cmds ...string) error {
 	cmd := c.wrapCommands(cmds...)
-	logger.Debug("start to exec `%s` on %s", cmd, host)
+	logger.Info("start to exec `%s` on %s", cmd, host)
 	client, session, err := c.Connect(host)
 	if err != nil {
 		return fmt.Errorf("connect error: %v", err)
@@ -104,6 +104,7 @@ func (c *Client) CmdAsyncWithContext(ctx context.Context, host string, cmds ...s
 
 // CmdAsync not actually asynchronously, just print output asynchronously
 func (c *Client) CmdAsync(host string, cmds ...string) error {
+	logger.Info(fmt.Sprintf("ssh host:%s,cmds:%s", host, cmds))
 	ctx, cancel := GetTimeoutContext()
 	defer cancel()
 	return c.CmdAsyncWithContext(ctx, host, cmds...)

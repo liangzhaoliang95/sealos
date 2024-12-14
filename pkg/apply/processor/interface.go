@@ -102,12 +102,14 @@ func inspectImage(iist imageInspector, image string) (*buildah.InspectOutput, er
 }
 
 func OCIToImageMount(inspector imageInspector, mount *v2.MountImage) error {
+	// 读取镜像元信息，包括cmd和env
 	oci, err := inspectImage(inspector, mount.ImageName)
 	if err != nil {
 		return err
 	}
 
 	mount.Env = maps.FromSlice(oci.OCIv1.Config.Env)
+	// 去除容器中的PATH环境变量信息
 	delete(mount.Env, "PATH")
 	// mount.Entrypoint
 	var entrypoint []string
@@ -130,6 +132,7 @@ func OCIToImageMount(inspector imageInspector, mount *v2.MountImage) error {
 	}
 	mount.Cmd = newCMDs
 	mount.Labels = oci.OCIv1.Config.Labels
+	// 默认镜像为application
 	imageType := v2.AppImage
 	typeKey := maps.GetFromKeys(mount.Labels, v2.ImageTypeKeys...)
 	if typeKey != "" {
